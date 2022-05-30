@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content%}
+
+{% for p in posts%}
+<div>
+    <h1>{{p.title}}</h1>
+    <p>{{p.pub_date}}</p>
+    <p>{{p.body}}<a href="{% url 'detail' p.id %}">...more</a></p>
+</div>
+{% endfor %}
+
+{% if posts.has_previous %}
+<a href="?page=1">First</a>
+<a href="?page={{posts.previous_page_number}}">previous</a>
+{% endif %}
+
+<span>{{posts.number}}</span>
+<span>of</span>
+<span>{{posts.paginator.num_pages}}</span>
+
+{% if posts.has_next %}
+<a href="?page={{posts.next_page_number}}">Next</a>
+<a href="?page={{posts.paginator.num_pages}}">Last</a>
+{% endif %}
+
+<!-- 지도를 표시할 div 입니다 -->
+<div id="map" style="width:300px;height:300px;"></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8d88cdbbfa4d19fe2957546a52eb8ef5"></script>
+<script>
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+      level: 3 // 지도의 확대 레벨
+    };
+
+  // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+  var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+</script>
+
+
+
+{% endblock %}
